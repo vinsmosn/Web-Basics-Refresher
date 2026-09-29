@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Enrollment System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <!-- ===== Enrollment form ===== -->
+    <section class="card">
+      <h1>Student Enrollment System</h1>
+      <p class="subtitle">Fill in the details below to enroll a student.</p>
+
+      <form id="enrollForm" novalidate>
+        <div class="grid">
+          <div class="field span-2">
+            <input type="text" id="studentId" placeholder=" " autocomplete="off">
+            <label for="studentId">Student ID *</label>
+            <small class="error"></small>
+          </div>
+
+          <div class="field">
+            <input type="text" id="prefix" placeholder="e.g. Mr., Ms.">
+            <label for="prefix">Prefix</label>
+            <small class="error"></small>
+          </div>
+          <div class="field">
+            <input type="text" id="firstName" placeholder=" ">
+            <label for="firstName">First Name *</label>
+            <small class="error"></small>
+          </div>
+          <div class="field">
+            <input type="text" id="middleName" placeholder=" ">
+            <label for="middleName">Middle Name</label>
+            <small class="error"></small>
+          </div>
+          <div class="field" id="lastName-field">
+            <input type="text" id="lastName" placeholder=" ">
+            <label for="lastName">Last Name *</label>
+            <small class="error"></small>
+          </div>
+          <div class="field">
+            <input type="text" id="suffix" placeholder="e.g. Jr., III ">
+            <label for="suffix">Suffix</label>
+            <small class="error"></small>
+          </div>
+
+          <div class="field span-2">
+            <input type="email" id="email" placeholder=" ">
+            <label for="email">Email *</label>
+            <small class="error"></small>
+          </div>
+
+          <div class="field">
+            <select id="course">
+              <option value="" hidden></option>
+              <option>BSIT</option><option>BSCS</option><option>BMMA</option><option>BSAIS</option>
+            </select>
+            <label for="course">Course *</label>
+            <small class="error"></small>
+          </div>
+
+          <!-- Shown only when Course = BSIT -->
+          <div class="field" id="majorField" hidden>
+            <select id="major">
+              <option value="" hidden></option>
+              <option>Net Sec</option><option>Web Tech</option><option>ERP</option>
+            </select>
+            <label for="major">Major *</label>
+            <small class="error"></small>
+          </div>
+
+          <div class="field">
+            <select id="year">
+              <option value="" hidden></option>
+              <option>1st Year</option><option>2nd Year</option><option>3rd Year</option>
+            </select>
+            <label for="year">Year Level *</label>
+            <small class="error"></small>
+          </div>
+        </div>
+
+        <button type="submit" class="btn">Enroll student</button>
+      </form>
+    </section>
+
+    <!-- ===== Submitted data ===== -->
+    <section class="card">
+      <h2>Enrolled students</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Student ID</th><th>Full Name</th><th>Email</th><th>Course</th><th>Major</th><th>Year</th></tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr class="empty"><td colspan="6">No students enrolled yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

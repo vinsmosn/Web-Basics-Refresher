@@ -1,0 +1,160 @@
+/* ===== Design tokens ===== */
+:root {
+  --bg-1: #1e1b4b;
+  --bg-2: #0f766e;
+  --accent: #6366f1;
+  --accent-hover: #4f46e5;
+  --text: #f8fafc;
+  --muted: #cbd5e1;
+  --glass: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(25, 255, 255, 0.25);
+  --error: #fca5a5;
+  --error-strong: #ef4444;
+  --success: #22c55e;
+  --radius: 14px;
+  --ease: 0.25s ease;
+}
+
+* { box-sizing: border-box; margin: 0; }
+
+/* ===== Page background (gradient + soft blobs) ===== */
+body {
+  min-height: 100vh;
+  font-family: "Inter", system-ui, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 15% 20%, rgba(99, 102, 241, 0.55), transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(20, 184, 166, 0.5), transparent 40%),
+    linear-gradient(135deg, var(--bg-1), var(--bg-2));
+  background-attachment: fixed;
+}
+
+.container {
+  display: grid;
+  gap: 1.5rem;
+  width: min(100% - 2rem, 900px);
+  margin-inline: auto;
+  padding-block: 2rem;
+}
+
+/* ===== Glass card ===== */
+.card {
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+h1 { font-size: clamp(1.6rem, 5vw, 2.2rem); font-weight: 700; letter-spacing: -0.02em; }
+h2 { font-size: 1.3rem; font-weight: 600; margin-bottom: 1rem; }
+.subtitle { color: var(--muted); margin: 0.4rem 0 1.75rem; }
+
+/* ===== Form layout: 1 col mobile, 2 tablet, 6 desktop ===== */
+.grid { display: grid; gap: 1.1rem; grid-template-columns: 1fr; }
+@media (min-width: 600px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+.field.span-2 { grid-column: 1 / -1; }  /* full row on mobile/tablet */
+@media (min-width: 900px) {
+  .grid { grid-template-columns: repeat(6, 1fr); }
+  .field { grid-column: span 2; }          /* three per row  */
+  #lastName-field { grid-column: span 4; } /* last name + suffix share a row */
+}
+
+/* ===== Fields with floating labels ===== */
+.field { position: relative; }
+.field[hidden] { display: none; }
+
+.field input,
+.field select {
+  width: 100%;
+  padding: 1.4rem 0.9rem 0.5rem;
+  font: inherit;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid var(--glass-border);
+  border-radius: var(--radius);
+  outline: none;
+  transition: border-color var(--ease), box-shadow var(--ease), background var(--ease);
+}
+.field select option { color: #111827; }
+
+.field label {
+  position: absolute;
+  left: 0.9rem;
+  top: 1rem;
+  color: var(--muted);
+  pointer-events: none;
+  transition: all var(--ease);
+}
+
+/* Float the label when focused or filled */
+.field input:focus + label,
+.field input:not(:placeholder-shown) + label,
+.field select:focus + label,
+.field select + label {   /* selects always show a floated label */
+  top: 0.35rem;
+  font-size: 0.72rem;
+  color: #e0e7ff;
+}
+
+.field input:hover, .field select:hover { background: rgba(255, 255, 255, 0.14); }
+.field input:focus, .field select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.35);
+}
+
+/* Valid / invalid feedback (classes toggled by script.js) */
+.field.invalid input, .field.invalid select { border-color: var(--error-strong); }
+.field.valid input, .field.valid select { border-color: var(--success); }
+
+.error { display: block; min-height: 1.1rem; margin-top: 0.3rem; font-size: 0.8rem; color: var(--error); }
+
+/* ===== Button ===== */
+.btn {
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 0.95rem 1.5rem;
+  font: 600 1rem "Inter", sans-serif;
+  color: #fff;
+  background: var(--accent);
+  border: 0;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform var(--ease), background var(--ease), box-shadow var(--ease);
+}
+.btn:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 10px 25px rgba(99, 102, 241, 0.45); }
+.btn:active { transform: translateY(0); box-shadow: none; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+.btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+@media (min-width: 600px) { .btn { width: auto; } }
+
+/* ===== Table ===== */
+.table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--glass-border); }
+table { width: 100%; min-width: 620px; border-collapse: collapse; }
+th, td { padding: 0.85rem 1rem; text-align: left; white-space: nowrap; }
+th { background: rgba(255, 255, 255, 0.18); font-weight: 600; }
+tbody tr { transition: background var(--ease); }
+tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.06); }
+tbody tr:hover { background: rgba(99, 102, 241, 0.3); }
+.empty td { text-align: center; color: var(--muted); }
+
+/* ===== Toast ===== */
+.toast {
+  position: fixed;
+  right: 1rem; bottom: 1rem;
+  padding: 0.9rem 1.25rem;
+  background: var(--success);
+  color: #052e16;
+  font-weight: 600;
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: opacity var(--ease), transform var(--ease);
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
